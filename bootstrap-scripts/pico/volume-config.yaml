@@ -1,12 +1,14 @@
 classes:
   datanode:
-    - /data0 xfs
-    - /var/log/pnda xfs
+    volumes:
+      - /data0 xfs
+      - /var/log/pnda xfs
 
   no_additonal_volumes:
 
   generic:
-    - /var/log/pnda xfs
+    volumes:
+      - /var/log/pnda xfs
 
 instances:
   hadoop-dn: datanode

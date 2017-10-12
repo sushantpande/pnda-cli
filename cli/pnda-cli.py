@@ -215,7 +215,7 @@ def ssh(cmds, cluster, host):
     if ret_val != 0:
         raise Exception("Error running ssh commands on host %s. See debug log (%s) for details." % (host, LOG_FILE_NAME))
 
-def get_volume_list(node_type, config_file):
+def get_volume_info(node_type, config_file):
     volumes = None
     with open(config_file, 'r') as infile:
         volume_config = yaml.load(infile)
@@ -238,7 +238,7 @@ def bootstrap(instance, saltmaster, cluster, flavor, branch, salt_tarball, error
                         'bootstrap-scripts/volume-mappings.sh',
                          type_script]
 
-        requested_volumes = get_volume_list(node_type, 'bootstrap-scripts/%s/%s' % (flavor, 'volume-config.yaml'))
+        requested_volumes = get_volume_info(node_type, 'bootstrap-scripts/%s/%s' % (flavor, 'volume-config.yaml'))
         cmds_to_run = ['source /tmp/pnda_env_%s.sh' % cluster,
                        'export PNDA_SALTMASTER_IP=%s' % saltmaster,
                        'export PNDA_CLUSTER=%s' % cluster,
@@ -249,8 +249,10 @@ def bootstrap(instance, saltmaster, cluster, flavor, branch, salt_tarball, error
                        'sudo chmod a+x /tmp/base.sh',
                        'sudo chmod a+x /tmp/volume-mappings.sh']
 
-        if requested_volumes is not None:
-            cmds_to_run.append('sudo mkdir -p /etc/pnda/disk-config && echo \'%s\' | sudo tee /etc/pnda/disk-config/requested-volumes' % '\n'.join(requested_volumes))
+        if requested_volumes is not None and 'partitions' in requested_volumes:
+            cmds_to_run.append('sudo mkdir -p /etc/pnda/disk-config && echo \'%s\' | sudo tee /etc/pnda/disk-config/partitions' % '\n'.join(requested_volumes['partitions']))
+        if requested_volumes is not None and 'volumes' in requested_volumes:
+            cmds_to_run.append('sudo mkdir -p /etc/pnda/disk-config && echo \'%s\' | sudo tee /etc/pnda/disk-config/requested-volumes' % '\n'.join(requested_volumes['volumes']))
 
         cmds_to_run.append('(sudo -E /tmp/base.sh 2>&1) | tee -a pnda-bootstrap.log; %s' % THROW_BASH_ERROR)
 
