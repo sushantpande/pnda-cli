@@ -2,7 +2,10 @@ classes:
   datanode:
     volumes:
       - /data0 xfs
-      - /var/log/pnda xfs
+      - /dev/xvdc /var/log/pnda xfs
+    partitions:
+      - /dev/xvdd msdos /dev/xvdd1 0% 60%
+      - /dev/xvdd msdos /dev/xvdd2 60% 100%
 
   no_additonal_volumes:
 
