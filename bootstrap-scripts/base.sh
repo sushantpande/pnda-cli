@@ -39,7 +39,7 @@ pnda:
   flavor: $PNDA_FLAVOR
   is_new_node: True
 
-pnda_cluster: $PNDA_CLUSTER 
+pnda_cluster: $PNDA_CLUSTER
 EOF
 
 if [ "x$DISTRO" == "xrhel" ]; then
