@@ -246,6 +246,7 @@ def bootstrap(instance, saltmaster, cluster, flavor, branch, salt_tarball, error
             type_script = 'bootstrap-scripts/%s.sh' % (node_type)
         node_idx = instance['node_idx']
         files_to_scp = ['cli/pnda_env_%s.sh' % cluster,
+                        'bootstrap-scripts/hardening.sh',
                         'bootstrap-scripts/package-install.sh',
                         'bootstrap-scripts/base.sh',
                         'bootstrap-scripts/volume-mappings.sh',
@@ -258,6 +259,7 @@ def bootstrap(instance, saltmaster, cluster, flavor, branch, salt_tarball, error
                        'export PNDA_FLAVOR=%s' % flavor,
                        'export PLATFORM_GIT_BRANCH=%s' % branch,
                        'export PLATFORM_SALT_TARBALL=%s' % salt_tarball if salt_tarball is not None else ':',
+                       'sudo chmod a+x /tmp/hardening.sh',
                        'sudo chmod a+x /tmp/package-install.sh',
                        'sudo chmod a+x /tmp/base.sh',
                        'sudo chmod a+x /tmp/volume-mappings.sh']

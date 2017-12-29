@@ -8,7 +8,7 @@
 # variables
 
 set -e
-
+/tmp/hardening.sh
 /tmp/package-install.sh
 DISTRO=$(cat /etc/*-release|grep ^ID\=|awk -F\= {'print $2'}|sed s/\"//g)
 
