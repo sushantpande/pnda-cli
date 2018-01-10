@@ -164,14 +164,10 @@ dataset_compaction:
   # Enable/Disable compaction on datasets.
   # "YES" to enable.
   # "NO" to disable.
-  COMPACTION: "NO"
+  COMPACTION: "YES"
   # If compaction is enabled, PATTERN sets the frequency of compaction.
   # H - hourly compaction.
   # d - daily compaction.
   # M - monthly compaction.
   # Y - yearly compaction.
   PATTERN: d
-  # If compaction is enabled, RETENTION_MODE sets the cleanup policy for staged data.
-  # delete - delete staged data after compaction.
-  # archive - archive staged data after compaction.
-  RETENTION_MODE: delete
